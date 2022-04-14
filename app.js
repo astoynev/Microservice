@@ -64,6 +64,8 @@ function fetchProductList() {
 
 function fetchOneProduct($id) {
     // function body
+    var item;
+    var product;
 }
 
 function fetchComments($id) {
