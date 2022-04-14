@@ -63,20 +63,27 @@ function fetchProductList() {
 }
 
 function fetchOneProduct($id) {
-    var item;
+    jsonObj = [];
+    item = {};
     var product;
 
-    $.ajax({
-        url: Url+'GetOneProduct', // Header
-        type: 'get',
-        dataType: 'json',
-        data: {"product_id":$id},
-        contentType: 'text/plain',
-        success: function (data) {
-            // Our data and rendering it
-            $.each(data['data']['List'], function(i, item) {
+    !($.trim($('#title').val()) == '') ? item ["title"] = $('#title').val(): '';
+    !($.trim($('#operating_system').val()) == '') ? item ["operating_system"] = $('#operating_system').val(): '';
+    !($.trim($('#min_price').val()) == '') ? item ["price_from"] = $('#min_price').val(): '';
+    !($.trim($('#max_price').val()) == '') ? item ["price_to"] = $('#max_price').val(): '';
 
-                product = '<div class="col-sm-6 col-md-4 col-lg-3 mt-4" id="product'+item['id']+'">\n' +
+    jsonObj.push(item);
+
+    $.ajax({
+        url: Url+'GetOneProduct',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'text/plain',
+        data: jsonObj[0],
+
+        success: function (data) {
+
+            product = '<div class="col-sm-6 col-md-4 col-lg-3 mt-4" id="product'+item['id']+'">\n' +
                     '            <div class="card card-inverse card-info">\n' +
                     '                <img class="card-img-top" src="'+item['image']+'">\n' +
                     '                <div class="card-block">\n' +
@@ -85,7 +92,7 @@ function fetchOneProduct($id) {
                     '                        <a style="color: deepskyblue">Category - Cell Phones</a>\n' +
                     '                    </div>\n' +
                     '                    <div class="card-text">\n' +
-                    '                        '+item['title'].substring(0,50)+'... more\n' +
+                    '                        '+item['title']+'\n'
                     '                    </div>\n' +
                     '                </div>\n' +
                     '                <div class="card-footer">\n' +
@@ -97,12 +104,14 @@ function fetchOneProduct($id) {
                     '                </div>\n' +
                     '            </div>\n' +
                     '        </div>';
-            });
+
             $('#items').html(product);
+
         },
         error: function (data) {
             alert("Error while fetching data.");
         }
+
     });
 }
 
