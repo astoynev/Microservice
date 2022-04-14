@@ -176,6 +176,21 @@ function setComment($id) {
 
 function addToCart($id) {
     // function body
+    let email =$.trim($('#email').val());
+    if( email !='' ) {
+        sessionStorage.setItem('email', email);
+        window.location.href = './cart.html';
+    } else {
+        alert("Please enter your email at top of page.");
+    }
+
+    $.ajax({
+        url: Url + 'AddToCart',
+        type: 'post',
+        dataType: 'json',
+        data: JSON.stringify({"product_id": $id,"email": email}),
+        contentType: 'text/plain',   
+    });
 }
 
 function toShoppingCart(){
