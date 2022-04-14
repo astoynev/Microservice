@@ -51,8 +51,25 @@ function getCart($email) {
 
 function deleteItem($id) {
     //function body
+    $.ajax({
+        url: Url + "Cart/" + $id,
+        type: 'delete',
+        dataType: 'json',
+        success: function (data) {
+            getCart(email);
+        }
+    })
 }
 
 function checkOut() {
     // function body
+    $.ajax({
+        url: Url + 'Cart',
+        type: 'put',
+        dataType: 'json',
+        data: {"email":email},
+        success: function (data) {
+            getCart(email);
+        }
+    })
 }
